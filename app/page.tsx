@@ -19,7 +19,7 @@ export default function IndexPage() {
     { label: "Shop", path: "/shop" },
     { label: "New Arrivals", path: "/shop" },
     { label: "Brand", path: "/brand" },
-    { label: "Journal", path: "/journal" },
+    { label: "Gallery", path: "/gallery" },
     { label: "Contact", path: "/contact" },
   ];
 
