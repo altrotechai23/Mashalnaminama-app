@@ -44,7 +44,7 @@ const BrandPage = () => {
             className="relative aspect-[3/4] bg-card overflow-hidden"
           >
             <Image
-              src="/brand/hero-denim.webp"
+              src="/im1.jpg"
               alt="Mashalnaminema collection — studded denim set"
               fill
               priority
@@ -77,7 +77,7 @@ const BrandPage = () => {
           className="mt-16 sm:mt-32 relative aspect-[4/3] sm:aspect-[16/9] bg-card overflow-hidden"
         >
           <Image
-            src="/brand/duo-editorial.webp"
+            src="/im4.jpg"
             alt="Mashalnaminema — editorial duo in handcrafted garments"
             fill
             className="object-cover object-top"
@@ -109,7 +109,7 @@ const BrandPage = () => {
             viewport={{ once: true }}
             className="relative aspect-[3/4] bg-card overflow-hidden"
           >
-            <Image src="/brand/studded-denim.webp" alt="Studded denim collection" fill className="object-cover" />
+            <Image src="/im6.jpg" alt="Studded denim collection" fill className="object-cover" />
           </motion.div>
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
@@ -118,7 +118,7 @@ const BrandPage = () => {
             transition={{ delay: 0.1 }}
             className="relative aspect-[3/4] bg-card overflow-hidden"
           >
-            <Image src="/brand/sherpa-set.webp" alt="Sherpa lounge set" fill className="object-cover" />
+            <Image src="/product-duo-editorial.jpg" alt="Sherpa lounge set" fill className="object-cover" />
           </motion.div>
         </div>
 
@@ -145,7 +145,7 @@ const BrandPage = () => {
           className="mt-16 sm:mt-32 mb-16 relative aspect-[4/3] sm:aspect-[16/9] bg-card overflow-hidden"
         >
           <Image
-            src="/brand/footer-editorial.webp"
+            src="/product-cream-suit.jpg"
             alt="Mashalnaminema — fringed coat editorial"
             fill
             className="object-cover object-top"

@@ -10,7 +10,7 @@ import { SignedIn, SignedOut, UserButton, SignInButton } from "@clerk/nextjs";
 const navLinks = [
   { label: "Shop", href: "/shop" },
   { label: "Brand", href: "/brand" },
-  { label: "Gallery", href: "/gallery" },
+  { label: "Collections", href: "/collections" },
   { label: "Contact", href: "/contact" },
 ];
 

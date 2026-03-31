@@ -39,12 +39,7 @@ const CartSidebar = () => {
             <SheetTitle className="fossil-label text-foreground tracking-[0.15em]">
               YOUR CART ({items.length})
             </SheetTitle>
-            <button 
-              onClick={() => setIsOpen(false)}
-              className="lg:hidden p-1 hover:opacity-60 transition-opacity"
-            >
-              <X size={20} strokeWidth={1.5} />
-            </button>
+            
           </div>
         </SheetHeader>
 

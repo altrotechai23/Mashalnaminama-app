@@ -1,15 +1,64 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client"
-  output   = "../lib/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id          String   @id @default(cuid())
+  clerkId     String   @unique
+  email       String   @unique
+  phoneNumber String?  // Required at checkout
+  address     String?  // Required at checkout
+  orders      Order[]
+  createdAt   DateTime @default(now())
+}
+
+model Collection {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  description String?
+  products    Product[] // Relation to products
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+
+model Product {
+  id           String      @id @default(cuid())
+  name         String
+  price        Decimal     @db.Decimal(10, 2)
+  images      String[] // Cloudinary URLs array    // Store as path like "/products/navy-pant.jpg"
+  category     String
+  isNew        Boolean     @default(false)
+  description  String      @db.Text
+  details      String[]    // PostgreSQL array
+  sizes        String[]    // PostgreSQL array
+  collectionId String?
+  collection   Collection? @relation(fields: [collectionId], references: [id])
+  orderItems   OrderItem[]
+  createdAt    DateTime    @default(now())
+}
+
+model Order {
+  id          String      @id @default(cuid())
+  userId      String
+  user        User        @relation(fields: [userId], references: [id])
+  totalAmount Decimal     @db.Decimal(10, 2)
+  status      String      @default("PENDING")
+  items       OrderItem[]
+  createdAt   DateTime    @default(now())
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Decimal @db.Decimal(10, 2)
 }
