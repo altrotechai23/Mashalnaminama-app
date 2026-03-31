@@ -44,7 +44,7 @@ const Footer = () => (
           <Link href="/brand" className="fossil-nav-link text-foreground text-[13px] sm:text-[14px]">
             Our Brand
           </Link>
-          <Link href="/journal" className="fossil-nav-link text-foreground text-[13px] sm:text-[14px]">
+          <Link href="/collections" className="fossil-nav-link text-foreground text-[13px] sm:text-[14px]">
             Journal
           </Link>
           <Link href="/contact" className="fossil-nav-link text-foreground text-[13px] sm:text-[14px]">
@@ -73,7 +73,7 @@ const Footer = () => (
     {/* Bottom Bar */}
     <div className="max-w-[1400px] mx-auto mt-8 sm:mt-12 pt-6 border-t border-border flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
       <span className="text-[11px] sm:text-[12px] text-muted-foreground">
-        © 2025 Mashalnaminema. All rights reserved.
+        © 2026 Mashalnaminema. All rights reserved.
       </span>
       <span className="text-[11px] sm:text-[12px] text-muted-foreground">
         Cape Town, South Africa
