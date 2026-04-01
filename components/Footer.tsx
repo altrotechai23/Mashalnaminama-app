@@ -57,13 +57,13 @@ const Footer = () => (
       <div className="col-span-2 sm:col-span-1">
         <span className="fossil-label text-muted-foreground">(Connect)</span>
         <div className="flex sm:flex-col gap-4 sm:gap-2 mt-3">
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="fossil-nav-link text-foreground text-[13px] sm:text-[14px]">
+          <a href="https://www.instagram.com/mashalnaminema?igsh=MWN1dHFodmtjbm4yNA==" target="_blank" rel="noopener noreferrer" className="fossil-nav-link text-foreground text-[13px] sm:text-[14px]">
             Instagram
           </a>
-          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="fossil-nav-link text-foreground text-[13px] sm:text-[14px]">
-            Twitter
+          <a href="https://youtube.com/@mashalnaminema?si=AG69vlan9-7efc8I" target="_blank" rel="noopener noreferrer" className="fossil-nav-link text-foreground text-[13px] sm:text-[14px]">
+            Youtube
           </a>
-          <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="fossil-nav-link text-foreground text-[13px] sm:text-[14px]">
+          <a href="https://www.tiktok.com/@mashalnaminema?_r=1&_t=ZS-95BQJesaCO7" target="_blank" rel="noopener noreferrer" className="fossil-nav-link text-foreground text-[13px] sm:text-[14px]">
             TikTok
           </a>
         </div>

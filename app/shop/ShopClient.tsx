@@ -77,7 +77,7 @@ export default function ShopClient({ initialProducts }: { initialProducts: any[]
                 className="group block"
               >
                 <div className="relative bg-card aspect-[3/4] overflow-hidden">
-                  <Link href={`/product/${product.id}`} className="block h-full w-full">
+                  <Link href={`/shop/product/${product.id}`} className="block h-full w-full">
                     {product.isNew && (
                       <span className="absolute top-2 left-2 sm:top-4 sm:left-4 z-10 fossil-label bg-background text-foreground px-1.5 py-0.5 sm:px-2 sm:py-1 text-[9px] sm:text-[11px] border border-border/50">
                         NEW

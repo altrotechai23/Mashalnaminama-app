@@ -6,59 +6,57 @@ datasource db {
   provider = "postgresql"
 }
 
-
 model User {
   id          String   @id @default(cuid())
   clerkId     String   @unique
   email       String   @unique
-  phoneNumber String?  // Required at checkout
-  address     String?  // Required at checkout
-  orders      Order[]
+  phoneNumber String?
+  address     String?
   createdAt   DateTime @default(now())
+  orders      Order[]
 }
 
 model Collection {
   id          String    @id @default(cuid())
-  name        String    @unique
   description String?
-  products    Product[] // Relation to products
   createdAt   DateTime  @default(now())
+  name        String    @unique
   updatedAt   DateTime  @updatedAt
+  products    Product[]
 }
-
 
 model Product {
   id           String      @id @default(cuid())
   name         String
   price        Decimal     @db.Decimal(10, 2)
-  images      String[] // Cloudinary URLs array    // Store as path like "/products/navy-pant.jpg"
+  images       String[]
   category     String
   isNew        Boolean     @default(false)
-  description  String      @db.Text
-  details      String[]    // PostgreSQL array
-  sizes        String[]    // PostgreSQL array
+  description  String
+  details      String[]
+  sizes        String[]
   collectionId String?
-  collection   Collection? @relation(fields: [collectionId], references: [id])
-  orderItems   OrderItem[]
   createdAt    DateTime    @default(now())
+  orderItems   OrderItem[]
+  collection   Collection? @relation(fields: [collectionId], references: [id])
 }
 
 model Order {
   id          String      @id @default(cuid())
   userId      String
-  user        User        @relation(fields: [userId], references: [id])
   totalAmount Decimal     @db.Decimal(10, 2)
   status      String      @default("PENDING")
-  items       OrderItem[]
   createdAt   DateTime    @default(now())
+  user        User        @relation(fields: [userId], references: [id])
+  items       OrderItem[]
 }
 
 model OrderItem {
   id        String  @id @default(cuid())
   orderId   String
-  order     Order   @relation(fields: [orderId], references: [id])
   productId String
-  product   Product @relation(fields: [productId], references: [id])
   quantity  Int
   price     Decimal @db.Decimal(10, 2)
+  order     Order   @relation(fields: [orderId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
 }
