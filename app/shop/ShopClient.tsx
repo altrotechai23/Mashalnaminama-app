@@ -21,7 +21,7 @@ export default function ShopClient({ initialProducts }: { initialProducts: any[]
 
   return (
     <div className="pt-14 min-h-screen bg-background flex flex-col">
-      <div className="px-4 sm:px-6 max-w-[1400px] mx-auto w-full flex-1">
+      <div className="px-4 sm:px-6 max-w-350 mx-auto w-full flex-1">
         {/* Header Section */}
         <div className="flex flex-col gap-4 pt-10 sm:pt-16 pb-8 sm:pb-12 md:flex-row md:items-end md:justify-between md:gap-6">
           <motion.div 
