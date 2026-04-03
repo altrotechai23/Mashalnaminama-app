@@ -1,83 +1,51 @@
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 import crypto from "crypto";
-import { NextRequest, NextResponse } from "next/server";
 
-function generateSignature(
-  data: Record<string, string>,
-  passPhrase?: string
-) {
-  let pfOutput = "";
-
-  for (const key in data) {
-    if (data.hasOwnProperty(key)) {
-      const value = data[key];
-      if (value !== "") {
-        pfOutput += `${key}=${encodeURIComponent(value.trim()).replace(
-          /%20/g,
-          "+"
-        )}&`;
+export async function POST(req: Request) {
+  try {
+    const formData = await req.formData();
+    const data: Record<string, string> = {};
+    
+    formData.forEach((value, key) => {
+      if (key !== "signature") {
+        data[key] = value.toString();
       }
-    }
-  }
-
-  let getString = pfOutput.slice(0, -1);
-
-  if (passPhrase) {
-    getString += `&passphrase=${encodeURIComponent(
-      passPhrase.trim()
-    ).replace(/%20/g, "+")}`;
-  }
-
-  return crypto.createHash("md5").update(getString).digest("hex");
-}
-
-export async function POST(req: NextRequest) {
-  const bodyText = await req.text();
-  const params = new URLSearchParams(bodyText);
-
-  const data: Record<string, string> = {};
-  params.forEach((value, key) => {
-    data[key] = value;
-  });
-
-  const receivedSignature = data.signature;
-  delete data.signature;
-
-  // 1️⃣ Validate signature
-  const calculatedSignature = generateSignature(
-    data,
-    process.env.PAYFAST_PASSPHRASE
-  );
-
-  if (receivedSignature !== calculatedSignature) {
-    console.error("❌ Invalid PayFast signature");
-    return new NextResponse("Invalid signature", { status: 400 });
-  }
-
-  // 2️⃣ Validate merchant ID
-  if (data.merchant_id !== process.env.PAYFAST_MERCHANT_ID) {
-    console.error("❌ Invalid merchant ID");
-    return new NextResponse("Invalid merchant", { status: 400 });
-  }
-
-  // 3️⃣ Validate amount (example)
-  const expectedAmount = "100.00"; // replace with DB lookup
-  if (data.amount_gross !== expectedAmount) {
-    console.error("❌ Amount mismatch");
-    return new NextResponse("Invalid amount", { status: 400 });
-  }
-
-  // 4️⃣ Payment status
-  if (data.payment_status === "COMPLETE") {
-    console.log("✅ Payment successful:", {
-      orderId: data.m_payment_id,
-      pfPaymentId: data.pf_payment_id,
     });
 
-    // TODO: mark order as PAID in DB
-  } else {
-    console.log("ℹ️ Payment status:", data.payment_status);
-  }
+    const receivedSignature = formData.get("signature");
 
-  // IMPORTANT: always return 200 OK
-  return new NextResponse("OK", { status: 200 });
+    // 1. Verify Signature
+    const pfOutput = Object.keys(data)
+      .map((key) => `${key}=${encodeURIComponent(data[key].trim()).replace(/%20/g, "+")}`)
+      .join("&");
+
+    const passphrase = process.env.PAYFAST_PASSPHRASE;
+    const finalString = passphrase 
+      ? `${pfOutput}&passphrase=${encodeURIComponent(passphrase.trim()).replace(/%20/g, "+")}`
+      : pfOutput;
+
+    const generatedSignature = crypto.createHash("md5").update(finalString).digest("hex");
+
+    if (receivedSignature !== generatedSignature) {
+      console.error("Invalid PayFast signature");
+      return new NextResponse("Invalid Signature", { status: 400 });
+    }
+
+    // 2. Check Payment Status
+    const paymentStatus = data["payment_status"];
+    const orderId = data["m_payment_id"]; // This matches our Prisma Order ID
+
+    if (paymentStatus === "COMPLETE") {
+      await prisma.order.update({
+        where: { id: orderId },
+        data: { status: "PAID" }, // Or "COMPLETED" based on your preference
+      });
+    }
+
+    return new NextResponse("OK", { status: 200 });
+  } catch (error) {
+    console.error("ITN Error:", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
 }
