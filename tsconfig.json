@@ -28,7 +28,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    "**/*.mts",
+    "src/types/globals.d.ts" // [CHECK THIS LINE]
   ],
   "exclude": ["node_modules"]
 }

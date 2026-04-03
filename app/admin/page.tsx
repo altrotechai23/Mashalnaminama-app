@@ -3,8 +3,16 @@ import { prisma } from "@/lib/prisma";
 import Image from "next/image";
 import Link from "next/link";
 import { deleteProduct } from "@/lib/actions/admin";
+import { checkRole } from "@/lib/roles";
+import { redirect } from "next/navigation";
 
 export default async function AdminDashboard() {
+   const isAdmin = await checkRole("admin");
+  
+  if (!isAdmin) {
+    redirect("/dashboard"); // Redirect regular users back to their dashboard
+  }
+
   const products = await prisma.product.findMany({ orderBy: { createdAt: 'desc' } });
 
   return (

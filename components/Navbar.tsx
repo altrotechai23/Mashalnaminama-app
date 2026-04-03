@@ -45,11 +45,11 @@ const Navbar = () => {
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border/40">
-        <nav className="flex items-center justify-between px-4 sm:px-6 h-14 max-w-[1440px] mx-auto">
+        <nav className="flex items-center justify-between px-4 sm:px-6 h-14 max-w-360 mx-auto">
           <div className="flex items-center gap-6">
             <button
               onClick={() => setDrawerOpen(true)}
-              className="lg:hidden flex flex-col justify-center gap-[5px] w-7 h-7 active:scale-90 transition-transform"
+              className="lg:hidden flex flex-col justify-center gap-1.25 w-7 h-7 active:scale-90 transition-transform"
               aria-label="Open menu"
             >
               <span className="block w-5 h-[1.5px] bg-foreground" />
@@ -74,7 +74,7 @@ const Navbar = () => {
           </Link>
 
           <div className="flex items-center gap-4 sm:gap-6">
-            <div className="flex items-center min-w-[24px]">
+            <div className="flex items-center min-w-6">
               {/* THE FIX: Only render Clerk components after mounting */}
               {mounted && (
                 <>
@@ -86,7 +86,16 @@ const Navbar = () => {
                     </SignInButton>
                   </SignedOut>
                   <SignedIn>
-                    <UserButton 
+                    <Link
+                      key="admin"
+                      href="/admin"
+                      className={`hidden lg:block fossil-nav-link transition-colors duration-200 mr-4 ${
+                        pathname === "admin" || pathname === "dashboard" ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      Dashboard
+                    </Link>
+                   <UserButton 
                       afterSignOutUrl="/"
                       appearance={{
                         elements: {
@@ -120,7 +129,7 @@ const MobileDrawer = ({ open, onClose }: { open: boolean; onClose: () => void })
 
   return (
     <div
-      className={`fixed inset-0 z-[100] transition-all duration-500 ${
+      className={`fixed inset-0 z-100 transition-all duration-500 ${
         open ? "pointer-events-auto" : "pointer-events-none"
       }`}
     >
@@ -132,7 +141,7 @@ const MobileDrawer = ({ open, onClose }: { open: boolean; onClose: () => void })
       />
 
       <div
-        className={`absolute inset-y-0 left-0 w-full sm:w-[380px] bg-background flex flex-col transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className={`absolute inset-y-0 left-0 w-full sm:w-95 bg-background flex flex-col transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           open ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"
         }`}
         style={{
@@ -182,6 +191,27 @@ const MobileDrawer = ({ open, onClose }: { open: boolean; onClose: () => void })
               </span>
             </Link>
           ))}
+          <Link
+              key="dashboard"
+              href="dashboard"
+              onClick={onClose}
+              className="block overflow-hidden"
+            >
+              <span
+                className={`block text-[clamp(2rem,10vw,3.5rem)] font-light tracking-[-0.03em] leading-[1.15] transition-all 
+                  ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                  pathname === "admin" || pathname === "dashboard" ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                } ${
+                  open ? "translate-y-0 opacity-100" : "translate-y-[110%] opacity-0"
+                }`}
+                style={{
+                  transitionDuration: "0.6s",
+                  transitionDelay: open ? `${0.15 + 4 * 0.08}s` : "0s",
+                }}
+              >
+                Dashboard
+              </span>
+          </Link>
         </nav>
 
         <div
