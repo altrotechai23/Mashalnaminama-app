@@ -1,5 +1,5 @@
 "use client";
-import { CldUploadWidget } from 'next-cloudinary';
+import { CldUploadWidget, CloudinaryUploadWidgetResults } from 'next-cloudinary';
 import Image from 'next/image';
 
 export default function MultiImageUpload({ urls, onUpload }: { urls: string[], onUpload: (url: string) => void }) {
@@ -15,7 +15,11 @@ export default function MultiImageUpload({ urls, onUpload }: { urls: string[], o
 
       <CldUploadWidget 
         uploadPreset="products_upload" 
-        onSuccess={(result: any) => onUpload(result.info.secure_url)}
+         options={{ multiple: true }}
+        onSuccess={(result: CloudinaryUploadWidgetResults) => {
+          const info = result.info as { secure_url: string };
+          onUpload(info.secure_url);
+        }}
       >
         {({ open }) => (
           <button 

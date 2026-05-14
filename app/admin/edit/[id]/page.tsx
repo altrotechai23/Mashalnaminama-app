@@ -15,6 +15,9 @@ export default async function EditPage({
   // 2. Fetch the product
   const product = await prisma.product.findUnique({
     where: { id },
+    include: {
+      sizes: true,
+    },
   });
 
   if (!product) notFound();

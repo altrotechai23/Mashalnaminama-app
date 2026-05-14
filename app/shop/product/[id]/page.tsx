@@ -1,9 +1,10 @@
-import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
  // Your Prisma client instance
 import ProductGallery from './ProductGallery';
 import AddToCartButton from './AddToCartButton';
 import { prisma } from '@/lib/prisma';
+import SizeSelector from "@/components/SizeSelector";
+
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -23,6 +24,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
       price: true,
       description: true,
       images: true, // Assuming this is a String[] or JSON column
+      sizes: true,
     }
   });
 
@@ -45,6 +47,8 @@ export default async function ProductDetailPage({ params }: PageProps) {
               <p className="text-xs uppercase tracking-widest text-muted-foreground">Premium Selection</p>
               <h1 className="text-4xl font-bold tracking-tight text-zinc-900">{product.name}</h1>
             </div>
+
+            <SizeSelector sizes={product.sizes} />
             
             <p className="text-2xl font-medium text-zinc-800">${product.price.toString()}</p>
             
@@ -62,3 +66,4 @@ export default async function ProductDetailPage({ params }: PageProps) {
     </main>
   );
 }
+

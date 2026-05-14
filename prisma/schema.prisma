@@ -26,19 +26,42 @@ model Collection {
 }
 
 model Product {
-  id           String      @id @default(cuid())
+  id           String        @id @default(cuid())
   name         String
-  price        Decimal     @db.Decimal(10, 2)
+  price        Decimal       @db.Decimal(10, 2)
   images       String[]
   category     String
-  isNew        Boolean     @default(false)
+  isNew        Boolean       @default(false)
   description  String
   details      String[]
-  sizes        String[]
+  // sizes        String[]
+  sizes        ProductSize[]
   collectionId String?
-  createdAt    DateTime    @default(now())
+  createdAt    DateTime      @default(now())
   orderItems   OrderItem[]
-  collection   Collection? @relation(fields: [collectionId], references: [id])
+  collection   Collection?   @relation(fields: [collectionId], references: [id])
+}
+
+model ProductSize {
+  id String @id @default(cuid())
+
+  size  Size
+  stock Int  @default(0)
+
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([productId, size])
+}
+
+enum Size {
+  XS
+  S
+  M
+  L
+  XL
 }
 
 model Order {
