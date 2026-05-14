@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const PAYPAL_API = process.env.NODE_ENV === "production"
-  ? "https://api-m.paypal.com"
-  : "https://api-m.sandbox.paypal.com";
+// const PAYPAL_API = process.env.NODE_ENV === "production"
+//   ? "https://api-m.paypal.com"
+//   : "https://api-m.sandbox.paypal.com";
+
+const PAYPAL_API = process.env.PAYPAL_ENV === "sandbox"
+  ? "https://api-m.sandbox.paypal.com"
+  : "https://api-m.paypal.com";
 
 async function getAccessToken() {
   const clientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
