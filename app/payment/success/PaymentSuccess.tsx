@@ -1,8 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { useCart } from "@/context/CartContext";
 
 export default function PaymentSuccess() {
+  const cart = useCart();
   const searchParams = useSearchParams();
   const router = useRouter();
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
@@ -22,9 +24,11 @@ export default function PaymentSuccess() {
       body: JSON.stringify({ paypalOrderId, orderId }),
     })
       .then(res => res.json())
-      .then(data => setStatus(data.success ? "success" : "error"))
+      .then((data )=>{ 
+        cart.clearCart();
+        setStatus(data.success ? "success" : "error")})
       .catch(() => setStatus("error"));
-  }, [searchParams]);
+  }, [searchParams, cart]);
 
   return (
     <div className="min-h-screen bg-black flex flex-col items-center justify-center text-white gap-4">

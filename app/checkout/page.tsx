@@ -39,7 +39,6 @@ export default function CheckoutPage() {
 
     const { approvalUrl } = await res.json();
 
-    cart.clearCart();
     router.push(approvalUrl); // ← instead of window.location.href
   } catch (error) {
     console.error(error);
